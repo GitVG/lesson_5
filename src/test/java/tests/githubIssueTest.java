@@ -18,8 +18,8 @@ import static io.qameta.allure.Allure.parameter;
 import static io.qameta.allure.Allure.step;
 
 public class githubIssueTest {
-    private static final String REPOSITORY = "eroshenkoam/allure-example";
-    private static final String ISSUE_NNMBER = "#68";
+    private static final String REPOSITORY = "GitVG/lesson_5";
+    private static final String ISSUE_NNMBER = "#1";
 
     @Test
     @Link(name = "Base url", value = "https://github.com")
@@ -31,24 +31,14 @@ public class githubIssueTest {
     public void testIssueSearch() {
         parameter("Repository", REPOSITORY);
         parameter("Issue Number", ISSUE_NNMBER);
-        step("Открываем главную страницу", () -> {
-            open("https://github.com");
-        });
-        step("Ищем репозиторий" + REPOSITORY, () -> {
-            $(".header-search-input").click();
-            $(".header-search-input").sendKeys(REPOSITORY);
-            $(".header-search-input").submit();
-        });
-        step("Кликаем на репозиторий" + REPOSITORY, () -> {
-            $(By.linkText(REPOSITORY)).click();
-        });
-        step("Переходим в раздел ссылки", () -> {
-            $(withText("Issues")).click();
-        });
-        step("Проверяем наличие номера", () -> {
-            $(withText(ISSUE_NNMBER)).should(Condition.exist);
-        });
-
+        open("https://github.com");
+        $(".header-search-input").click();
+        $(".header-search-input").sendKeys(REPOSITORY);
+        $(".header-search-input").submit();
+        $(By.linkText(REPOSITORY)).click();
+        $(withText("Issues")).click();
+        $(withText(ISSUE_NNMBER)).should(Condition.exist);
 
     }
+
 }
