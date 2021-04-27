@@ -11,9 +11,10 @@ import org.junit.jupiter.api.Tags;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.withText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$x;
 import static io.qameta.allure.Allure.parameter;
 import static io.qameta.allure.Allure.step;
 
@@ -27,18 +28,18 @@ public class lambdaSteps {
             open("https://github.com");
         });
         step("Ищем репозиторий" + REPOSITORY, () -> {
-            $(".header-search-input").click();
-            $(".header-search-input").sendKeys(REPOSITORY);
-            $(".header-search-input").submit();
+            $x("//*[@class = 'js-site-search-form']").click();
+            $x("//input[@aria-label='Search GitHub']").setValue(REPOSITORY);
+            $x("//input[@aria-label='Search GitHub']").pressEnter();
         });
         step("Кликаем на репозиторий" + REPOSITORY, () -> {
-            $(By.linkText(REPOSITORY)).click();
+            $x("//*[@class='f4 text-normal']/a['{REPOSITORY}']").click();
         });
         step("Переходим в раздел ссылки", () -> {
-            $(withText("Issues")).click();
+            $x("//li[@class='d-flex']/a[@href='/GitVG/lesson_5/issues']").click();
         });
         step("Проверяем наличие номера", () -> {
-            $(withText(ISSUE_NNMBER)).should(Condition.exist);
+            $x("//span[@class='opened-by']").shouldHave(text(ISSUE_NNMBER));
         });
     }
 }
